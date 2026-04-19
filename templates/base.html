@@ -8,37 +8,87 @@
     <link rel="stylesheet" href="https://bootswatch.com/5/darkly/bootstrap.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <title>Django -  CRM</title>
+    <style>
+        :root {
+            --crm-bg: #121820;
+            --crm-surface: #19222d;
+            --crm-surface-soft: #1f2a36;
+            --crm-border: rgba(146, 164, 182, 0.22);
+            --crm-text-soft: #9eb0c2;
+        }
+
+        body {
+            background: var(--crm-bg);
+            color: #dce5ee;
+        }
+
+        .crm-main {
+            background: var(--crm-bg);
+        }
+
+        .crm-surface {
+            background: var(--crm-surface);
+            border: 1px solid var(--crm-border);
+        }
+
+        .crm-surface-soft {
+            background: var(--crm-surface-soft);
+            border-color: var(--crm-border) !important;
+        }
+
+        .text-soft {
+            color: var(--crm-text-soft) !important;
+        }
+    </style>
 </head>
 <body>
-    {% include "parts/navbar.html" %}
-    {% block content %}
-    {% endblock %}
-    {% if messages %}
+    <div class="d-flex flex-column min-vh-100">
+        <!-- Navigation -->
+        {% include "parts/navbar.html" %}
 
-    <div class="container mt-3">
-
-        {% for message in messages %}
-
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <!-- Main Content Area -->
+        <main class="flex-grow-1 crm-main pb-5">
+            <div class="container mt-4">
                 
-                {{ message }}
+                <!-- Toast/Alert Messages -->
+                {% if messages %}
+                    <div class="messages-wrapper mb-4">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
 
-                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                <!-- Page Content -->
+                <div class="crm-surface rounded shadow-sm p-4">
+                    {% block content %}
+                    {% endblock %}
+                </div>
 
             </div>
+        </main>
 
-        {% endfor %}
-
+        <!-- Footer -->
+        <footer class="py-4 crm-surface text-center mt-auto border-top">
+            <div class="container">
+                <small class="text-soft text-uppercase tracking-wide">&copy; Django CRM Application</small>
+            </div>
+        </footer>
     </div>
 
-{% endif %}
-
-<script>
-    setTimeout(() => {
-        let alerts = document.querySelectorAll('.alert');
-        alerts.forEach(alert => alert.remove());
-    }, 3000);
-</script>
-    
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Auto-dismiss alerts with Bootstrap's native close method
+        setTimeout(() => {
+            document.querySelectorAll('.alert').forEach(alertNode => {
+                const alertInstance = new bootstrap.Alert(alertNode);
+                alertInstance.close();
+            });
+        }, 3000);
+    </script>
 </body>
 </html>

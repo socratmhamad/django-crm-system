@@ -1,46 +1,62 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-center">
-    <a class="navbar-brand main-heading" href="{% url 'home'%}"> 
+<nav class="navbar navbar-expand-lg navbar-dark py-3 shadow-sm border-bottom border-secondary border-opacity-25 crm-navbar">
+    <div class="container">
+        <!-- Brand / Logo -->
+        <a class="navbar-brand fw-bold tracking-wide" href="{% url 'home' %}">
+            <i class="bi bi-layers-fill me-2 text-primary"></i>Django CRM
+        </a>
+        
+        <!-- Mobile Toggle (Bootstrap 5 attributes) -->
+        <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Navigation Links -->
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-2 align-items-lg-center">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link px-3 rounded transition-all d-flex align-items-center {% if request.resolver_match.url_name == 'dashboard' %}active bg-primary bg-opacity-10 text-primary fw-medium{% endif %}" href="{% url 'dashboard' %}">
+                            <i class="bi bi-grid-1x2 me-2"></i> Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-outline-danger btn-sm px-3 py-2 rounded d-flex align-items-center" href="{% url 'logout' %}">
+                            <i class="bi bi-box-arrow-right me-2"></i> Sign Out
+                        </a>
+                    </li>
+                {% else %} 
+                    <li class="nav-item">
+                        <a class="nav-link px-3 rounded transition-all d-flex align-items-center {% if request.resolver_match.url_name == 'register' %}active bg-secondary bg-opacity-25 fw-medium{% endif %}" href="{% url 'register' %}">
+                            <i class="bi bi-person-plus me-2"></i> Register
+                        </a>
+                    </li>
+                    <li class="nav-item ms-lg-2">
+                        <a class="btn btn-primary px-4 py-2 rounded d-flex align-items-center shadow-sm" href="{% url 'login' %}">
+                            <i class="bi bi-box-arrow-in-right me-2"></i> Login
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
 
-      &nbsp; Django - CRM  
-    </a>
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-toggle="collapse"
-      data-target="#navbarNavDropdown"
-      aria-controls="navbarNavDropdown"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
-      <span class="navbar-toggler-icon"></span>
-    </button>
-      <div class="collapse navbar-collapse text-center" id="navbarNavDropdown">
-        <ul class="navbar-nav mr-auto">
-          &nbsp;     &nbsp;     &nbsp; 
-          
-          {% if user.is_authenticated %}
-          
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'dashboard' %}">dashboard &nbsp; <i class="fa fa-home" aria-hidden="true"></i> </a>
-            </li>
-            &nbsp;     &nbsp;     &nbsp;
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'logout' %}">Sign Out &nbsp; <i class="fa fa-sign-out" aria-hidden="true"></i> </a>
-            </li>
-          {% else %} 
-          
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'register' %}">Register &nbsp; <i class="fa fa-home" aria-hidden="true"></i> </a>
-            </li>
-            &nbsp;     &nbsp;     &nbsp;
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">Login &nbsp; <i class="fa fa-sign-out" aria-hidden="true"></i> </a>
-            </li>
-         
-          {% endif %}
-            &nbsp;     &nbsp;     &nbsp; 
-        </ul>
-        &nbsp;     &nbsp;     &nbsp; 
-        &nbsp;     &nbsp;     &nbsp;
-      </div>
-  </nav>
+<style>
+    .crm-navbar {
+        background: #19222d;
+    }
+
+    /* Subtle hover effect for nav links */
+    .navbar-nav .nav-link:not(.active):hover {
+        background-color: rgba(138, 162, 187, 0.14);
+        color: #fff !important;
+    }
+
+    .navbar-nav .nav-link.active {
+        border: 1px solid rgba(86, 179, 255, 0.25);
+    }
+
+    .transition-all {
+        transition: all 0.2s ease-in-out;
+    }
+</style>

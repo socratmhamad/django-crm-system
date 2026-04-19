@@ -1,25 +1,23 @@
 {% extends "base.html" %}
 
 {% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7 col-lg-5">
+        <div class="card crm-surface-soft shadow-sm border-secondary border-opacity-25 text-center p-4 p-md-5">
+            <h3 class="h4 mb-3">Are you sure you want to delete?</h3>
+            <p class="text-soft mb-4"><strong>{{ record.first_name }} {{ record.last_name }}</strong></p>
 
-<div class="container bg-light shadow-md p-5 form-layout text-center">
-
-    <h3>Are you sure you want to delete?</h3>
-
-    <p><strong>{{ record.first_name }} {{ record.last_name }}</strong></p>
-
-    <form method="POST">
-        {% csrf_token %}
-
-        <button type="submit" class="btn btn-danger">
-            Yes, Delete
-        </button>
-
-        <a href="{% url 'dashboard' %}" class="btn btn-secondary">
-            Cancel
-        </a>
-    </form>
-
+            <form method="POST" class="d-flex justify-content-center gap-2">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">
+                    Yes, Delete
+                </button>
+                <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">
+                    Cancel
+                </a>
+            </form>
+        </div>
+    </div>
 </div>
 
 {% endblock %}
