@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container bg-light shadow-md p-5 form-layout text-center">
+
+    <h3>Are you sure you want to delete?</h3>
+
+    <p><strong>{{ record.first_name }} {{ record.last_name }}</strong></p>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <button type="submit" class="btn btn-danger">
+            Yes, Delete
+        </button>
+
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+            Cancel
+        </a>
+    </form>
+
+</div>
+
+{% endblock %}
