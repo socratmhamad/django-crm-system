@@ -59,13 +59,13 @@ def my_login(request):
 
 @login_required(login_url = 'login')
 def dashboard(request):
-    records = Record.objects.all
+    records = Record.objects.filter(user=request.user)
     context = {'records' : records}
     return render(request,'web/dashboard.html',context)
 
 @login_required(login_url='login')
 def view_record(request, record_id):
-    all_records = get_object_or_404(Record, id = record_id)
+    all_records = get_object_or_404(Record, id = record_id , user=request.user)
     context = {
         'record' : all_records
     }
@@ -82,6 +82,8 @@ def Creat_Record(request):
     if request.method == 'POST':
         form = CreateRecordForm(request.POST)
         if form.is_valid():
+            form = form.save(commit=False)
+            form.user = request.user
             form.save()
             messages.success(request, "Record created successfully ✔")
             return redirect('dashboard')
@@ -97,7 +99,7 @@ def Creat_Record(request):
     
     
 def update_record(request,record_id):
-    record = get_object_or_404(Record,id=record_id)
+    record = get_object_or_404(Record,id=record_id,user=request.user)#جبلي الجدول صاحب الأي دي هذا
     form = CreateRecordForm(instance=record)
     if request.method == 'POST':
         form = CreateRecordForm(request.POST,instance=record)
@@ -111,7 +113,7 @@ def update_record(request,record_id):
         
         
 def delete_record(request,record_id):
-    record = get_object_or_404(Record,id=record_id)#جبلي الجدول صاحب الأي دي هذا        
+    record = get_object_or_404(Record,id=record_id,user=request.user)#جبلي الجدول صاحب الأي دي هذا        
     if request.method == 'POST':
         record.delete()
         messages.success(request, "Record deleted successfully ❌")
