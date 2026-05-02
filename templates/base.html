@@ -39,6 +39,30 @@
         .text-soft {
             color: var(--crm-text-soft) !important;
         }
+
+        /* Global Page Transition */
+        .page-fade-in {
+            animation: pageFadeInUp 450ms ease-out forwards;
+            opacity: 0;
+            transform: translateY(12px);
+        }
+
+        @keyframes pageFadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Global Button Hover Enhancements */
+        .btn {
+            transition: transform 250ms ease, box-shadow 250ms ease, background-color 250ms ease, border-color 250ms ease;
+        }
+        
+        .btn:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
     </style>
 </head>
 <body>
@@ -47,7 +71,7 @@
         {% include "parts/navbar.html" %}
 
         <!-- Main Content Area -->
-        <main class="flex-grow-1 crm-main pb-5">
+        <main class="flex-grow-1 crm-main pb-5 page-fade-in">
             <div class="container mt-4">
                 
                 <!-- Toast/Alert Messages -->

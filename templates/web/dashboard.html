@@ -48,7 +48,7 @@
             <tbody>
                 {% if records %}
                     {% for record in records %}
-                        <tr>
+                        <tr class="crm-table-row">
                             <td class="ps-4 text-soft fw-bold">#{{ record.id }}</td>
                             <td class="fw-medium text-light">{{ record.first_name }} {{ record.last_name }}</td>
                             <td>
@@ -64,13 +64,13 @@
                             <td><small class="text-soft">{{ record.create_at }}</small></td>
                             <td class="text-end pe-4">
                                 <div class="btn-group btn-group-sm shadow-sm" role="group">
-                                    <a href="{% url 'view_record' record.id %}" class="btn btn-outline-info" title="View details">
+                                    <a href="{% url 'view_record' record.id %}" class="btn btn-outline-info btn-action-view" title="View details">
                                         <i class="bi bi-eye-fill"></i>
                                     </a>
-                                    <a href="{% url 'update_record' record.id %}" class="btn btn-outline-warning" title="Edit record">
+                                    <a href="{% url 'update_record' record.id %}" class="btn btn-outline-warning btn-action-edit" title="Edit record">
                                         <i class="bi bi-pencil-fill"></i>
                                     </a>
-                                    <a href="{% url 'delete_record' record.id %}" class="btn btn-outline-danger" title="Delete record">
+                                    <a href="{% url 'delete_record' record.id %}" class="btn btn-outline-danger btn-action-delete" title="Delete record">
                                         <i class="bi bi-trash-fill"></i>
                                     </a>
                                 </div>
@@ -101,6 +101,58 @@
     .crm-table tbody tr:hover {
         background-color: rgba(120, 160, 198, 0.08);
     }
+    
+    /* Table Row Stagger Animation */
+    @keyframes tableRowFadeUp {
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .crm-table-row {
+        opacity: 0;
+        transform: translateY(8px);
+        animation: tableRowFadeUp 350ms ease-out forwards;
+    }
+
+    /* CSS variable for delay assigned via JS below */
+    .crm-table-row {
+        animation-delay: var(--row-delay, 0ms);
+    }
+
+    /* Action Buttons Feedback */
+    .btn-action-view:hover {
+        background-color: rgba(13, 202, 240, 0.1) !important;
+        border-color: #0dcaf0;
+        box-shadow: 0 0 10px rgba(13, 202, 240, 0.3);
+        transform: scale(1.05);
+    }
+    
+    .btn-action-edit:hover {
+        background-color: rgba(255, 193, 7, 0.1) !important;
+        border-color: #ffc107;
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+        transform: scale(1.05);
+    }
+    
+    .btn-action-delete:hover {
+        background-color: rgba(220, 53, 69, 0.15) !important;
+        border-color: #dc3545;
+        box-shadow: 0 0 8px rgba(220, 53, 69, 0.3);
+        transform: scale(1.03); /* Delete button has slightly less scaling */
+    }
 </style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        // Apply staggered delays to table rows
+        const rows = document.querySelectorAll('.crm-table-row');
+        rows.forEach((row, index) => {
+            // Delay increases by 40ms per row
+            row.style.setProperty('--row-delay', `${index * 40}ms`);
+        });
+    });
+</script>
 
 {% endblock %}
